@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Singleton Pattern">
+    <output-path>$PROJECT_DIR$/out</output-path>
+    <root id="archive" name="Singleton Pattern.jar">
+      <element id="module-output" name="Singletton Pattern" />
+    </root>
+  </artifact>
+</component>
