@@ -5,7 +5,7 @@ public abstract class LogCreate {
     private String logPath = "logs/app.log";
     private String logMessage = "";
 
-    public void setLog(String log) {
+            public void setLog(String log) {
         this.log = log;
     }
 
