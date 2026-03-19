@@ -1,7 +1,12 @@
 package LogCreate;
 
-public class Debug extends LogCreate{
-    public LogCreate Debug(){
-        return new Debug();
+public class Debug extends LogCreate {
+    public Debug() {
+        this.log = "DEBUG";
+    }
+
+    @Override
+    public String getLog() {
+        return this.log;
     }
 }

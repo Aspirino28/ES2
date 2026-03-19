@@ -1,7 +1,12 @@
 package LogCreate;
 
-public class Warning extends LogCreate{
+public class Warning extends LogCreate {
     public Warning() {
-        setLog("WARNING");
+        this.log = "WARNING";
+    }
+
+    @Override
+    public String getLog() {
+        return this.log;
     }
 }

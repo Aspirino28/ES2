@@ -2,6 +2,11 @@ package LogCreate;
 
 public class Info extends LogCreate {
     public Info() {
-        setLog("INFO");
+        this.log = "INFO";
+    }
+
+    @Override
+    public String getLog() {
+        return this.log;
     }
 }
