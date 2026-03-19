@@ -1,30 +1,32 @@
 package LogCreate;
 
-public abstract class LogCreate implements InterfaceLog {
+//Aqui para o Factory poderia ser tanto interface como classe abstrata, mas o Factory teria de ser igual
 
+public abstract class LogCreate {
     public String log;
-    private String logPath    = "logs/app.log";
+    private String logPath = "logs/app.log";
     private String logMessage = "";
 
-    public abstract String getLog();
-
-    @Override
-    public void setLogMessage(String logMessage) {
-        this.logMessage = logMessage;
+    public void setLog(String log) {
+        this.log = log;
     }
 
-    @Override
-    public String getLogMessage() {
+    public String getLog(){
+        return this.log;
+    }
+
+    public void setLogMessage(String logMessage){
+        this.logMessage = logMessage;
+    }
+    public String getLogMessage(){
         return this.logMessage;
     }
 
-    @Override
     public void setLogPath(String logPath) {
         this.logPath = logPath;
     }
 
-    @Override
-    public String getLogPath() {
+    public String getLogPath(){
         return this.logPath;
     }
 }
