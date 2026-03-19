@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/DesignPattern/BridgePattern/BridgePattern.iml" filepath="$PROJECT_DIR$/DesignPattern/BridgePattern/BridgePattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DesignPattern/Composite/Composite.iml" filepath="$PROJECT_DIR$/DesignPattern/Composite/Composite.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DesignPattern/Decorator/Decorator.iml" filepath="$PROJECT_DIR$/DesignPattern/Decorator/Decorator.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DesignPattern/DesignPattern.iml" filepath="$PROJECT_DIR$/DesignPattern/DesignPattern.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ES2.iml" filepath="$PROJECT_DIR$/.idea/ES2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Projeto/Projeto.iml" filepath="$PROJECT_DIR$/Projeto/Projeto.iml" />
+      <module fileurl="file://$PROJECT_DIR$/DesignPattern/Singleton Pattern/Singleton Pattern.iml" filepath="$PROJECT_DIR$/DesignPattern/Singleton Pattern/Singleton Pattern.iml" />
+    </modules>
+  </component>
+</project>
