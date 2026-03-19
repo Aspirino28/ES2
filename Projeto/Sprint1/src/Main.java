@@ -1,24 +1,31 @@
-import LogCreate.LogFactory;
-import LogCreate.InterfaceLog;
+import LogConfig.LogConfig;
+import LogCreate.DebugFactory;
+import LogCreate.ErrorFactory;
+import LogCreate.FactoryLogCreate;
+import LogCreate.LogCreate;
+import LogCreate.InfoFactory;
+import LogCreate.WarningFactory;
 
 public class Main {
+    private static void testarFactory(String nomeFactory, FactoryLogCreate factory, String mensagem, LogConfig config) {
+        LogCreate log = factory.createLogCreate(nomeFactory);
+        log.setLogMessage(mensagem);
+
+        System.out.println("Factory: " + nomeFactory);
+        System.out.println("  Nivel: " + config.logLevel(log));
+        System.out.println("  Mensagem: " + config.log(log));
+        System.out.println("  Caminho: " + config.logPath(log));
+        System.out.println();
+    }
+
     public static void main(String[] args) {
-        InterfaceLog infoLog = LogFactory.createLog("INFO");
-        infoLog.setLogMessage("Esta é uma mensagem de informação.");
-        infoLog.setLogPath("logs/info.log");
+        LogConfig config = LogConfig.getInstance();
+        System.out.println("Teste Factory Method - Logs");
+        System.out.println();
 
-        InterfaceLog errorLog = LogFactory.createLog("ERROR");
-        errorLog.setLogMessage("Esta é uma mensagem de erro.");
-        errorLog.setLogPath("logs/error.log");
-
-        System.out.println("--- Log INFO ---");
-        System.out.println("Mensagem: " + infoLog.getLogMessage());
-        System.out.println("Nível: " + infoLog.getLog());
-        System.out.println("Caminho: " + infoLog.getLogPath());
-
-        System.out.println("\n--- Log ERROR ---");
-        System.out.println("Mensagem: " + errorLog.getLogMessage());
-        System.out.println("Nível: " + errorLog.getLog());
-        System.out.println("Caminho: " + errorLog.getLogPath());
+        testarFactory("InfoFactory", new InfoFactory(), "Aplicacao iniciada com sucesso.", config);
+        testarFactory("WarningFactory", new WarningFactory(), "Uso de memoria acima do esperado.", config);
+        testarFactory("ErrorFactory", new ErrorFactory(), "Falha ao guardar o ficheiro.", config);
+        testarFactory("DebugFactory", new DebugFactory(), "Valor da variavel x = 42", config);
     }
 }
