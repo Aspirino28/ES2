@@ -1,0 +1,14 @@
+[INFO] Aplicacao iniciada
+[WARNING] Uso de memoria acima do esperado
+[ERROR] Falha ao processar pagamento
+[INFO] Aplicacao iniciada
+[WARNING] Uso de memoria acima do esperado
+[ERROR] Falha ao processar pagamento
+[INFO] Query executada: SELECT * FROM users
+[INFO] Aplicacao iniciada
+[WARNING] Uso de memoria acima do esperado
+[ERROR] Falha ao processar pagamento
+[INFO] Aplicacao iniciada
+[WARNING] Uso de memoria acima do esperado
+[ERROR] Falha ao processar pagamento
+[INFO] Query executada: SELECT * FROM users
