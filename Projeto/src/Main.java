@@ -2,20 +2,47 @@ import Sprint1.LogConfig.LogConfig;
 import Sprint1.LogCreate.*;
 import Sprint2.*;
 import Sprint3.*;
+import Sprint4.*;
 
 public class Main {
     public static void main(String[] args) {
         LogConfig config = LogConfig.getInstance();
+        LogHistory history = new LogHistory();
 
         LogDestination console = new ConsoleDestination();
         LogDestination file = new FileDestination("logs/app.log");
         LogDestination remote = new RemoteDestination("https://logs.example.local");
-        LogDestination db = new PooledDatabaseDestination();  // M5
+        LogDestination db = new PooledDatabaseDestination();
 
-        writeLog(config, new InfoFactory(), "Aplicacao iniciada", console, file, remote, db);
-        writeLog(config, new WarningFactory(), "Uso de memoria acima do esperado", console, file, db);
-        writeLog(config, new ErrorFactory(), "Falha ao processar pagamento", console, file, remote, db);
-        writeLog(config, new DebugFactory(), "Detalhes de depuracao da rotina X", console);
+        LogProcessor processor = new BaseLogProcessor();
+        processor = new AdminAlertDecorator(processor);
+        processor = new MonitoringDecorator(processor);
+        processor = new PatternAnalysisDecorator(processor);
+
+        System.out.println("=== ESTADO INICIAL ===");
+        history.save(config.saveState());
+
+        writeLog(processor, new InfoFactory(), "Aplicacao iniciada", console, file, remote, db);
+        writeLog(processor, new WarningFactory(), "Uso de memoria acima do esperado", console, file, db);
+        writeLog(processor, new ErrorFactory(), "Falha ao processar pagamento", console, file, remote, db);
+        writeLog(processor, new DebugFactory(), "Detalhes de depuracao da rotina X", console);
+
+        System.out.println("\n=== ALTERAR CONFIGURAÇÃO (M6) ===");
+        config.disableLevel("DEBUG");
+        config.deactivateDestination("Remote");
+        config.addFilter("falha");
+        config.addFilter("pagamento");
+
+        writeLog(processor, new InfoFactory(), "Aplicacao iniciada novamente", console, file, remote, db);
+        writeLog(processor, new DebugFactory(), "Novo detalhe de depuracao", console, file);
+        writeLog(processor, new ErrorFactory(), "Falha ao processar pagamento", console, file, remote, db);
+        writeLog(processor, new ErrorFactory(), "Falha ao processar pagamento", console, file, remote, db);
+
+        System.out.println("\n=== RESTAURAR CONFIGURAÇÃO (M6) ===");
+        config.restoreState(history.undo());
+
+        writeLog(processor, new DebugFactory(), "Depuracao restaurada com sucesso", console, file, remote);
+        writeLog(processor, new InfoFactory(), "Sistema voltou à configuração inicial", console, file, remote, db);
 
         LogCategory sistema = new LogCategory("Sistema");
         LogCategory pagamentos = new LogCategory("Pagamentos");
@@ -44,33 +71,24 @@ public class Main {
         log5.setLogMessage("Query executada: SELECT * FROM users");
         queries.add(new LogEntry("Query", log5));
 
-        writeCategoryLogs(sistema, console, file);
-        writeCategoryLogs(pagamentos, console, file, remote, db);
-        writeCategoryLogs(baseDados, console, file);
-        writeCategoryLogs(depuracao, console);
+        System.out.println("\n=== LOGS DO COMPOSITE ===");
+        writeCategoryLogs(processor, sistema, console, file);
+        writeCategoryLogs(processor, pagamentos, console, file, remote, db);
+        writeCategoryLogs(processor, baseDados, console, file);
+        writeCategoryLogs(processor, depuracao, console);
 
         ConnectionPool.getInstance().closeAll();
     }
 
-    private static void writeLog(LogConfig config, FactoryLogCreate factory, String message, LogDestination... destinations) {
+    private static void writeLog(LogProcessor processor, FactoryLogCreate factory, String message, LogDestination... destinations) {
         LogCreate log = factory.createLogCreate(message);
         log.setLogMessage(message);
-        String formatted = "[" + config.logLevel(log) + "] " + config.log(log);
-        for (LogDestination dest : destinations) {
-            dest.open();
-            dest.write(formatted);
-            dest.close();
-        }
+        processor.process(log, destinations);
     }
 
-    private static void writeCategoryLogs(LogComponent category, LogDestination... destinations) {
+    private static void writeCategoryLogs(LogProcessor processor, LogComponent category, LogDestination... destinations) {
         for (LogCreate log : category.getLogs()) {
-            String formatted = "[" + LogConfig.getInstance().logLevel(log) + "] " + LogConfig.getInstance().log(log);
-            for (LogDestination dest : destinations) {
-                dest.open();
-                dest.write(formatted);
-                dest.close();
-            }
+            processor.process(log, destinations);
         }
     }
 }
