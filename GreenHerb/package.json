@@ -1,0 +1,14 @@
+{
+  "name": "GreenHerb",
+  "version": "1.0.0",
+  "description": "GREENHERB - Gestão Inteligente de Estufa",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest",
+    "coverage": "jest --coverage"
+  },
+  "private": true,
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
