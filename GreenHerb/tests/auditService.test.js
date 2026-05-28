@@ -22,7 +22,7 @@
 
 // --- NOVAS DEPENDÊNCIAS PARA TESTES DE INTEGRAÇÃO ---
 const request = require('supertest');
-const app = require('../app'); // ou '../server' se for o caso
+const app = require('../src/app'); // ou '../server' se for o caso
 // -------------------------------------------------
 
 const {
